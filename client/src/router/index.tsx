@@ -8,6 +8,8 @@ import MyPage from "../pages/MyPage";
 import FeedbackPage from "../pages/FeedbackPage";
 import RankingPage from "../pages/RankingPage";
 import AdminPage from "../pages/AdminPage";
+import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,8 @@ const router = createBrowserRouter([
       { path: "feedback/:answerId", element: <FeedbackPage /> },
       { path: "rankings", element: <RankingPage /> },
       { path: "admin", element: <AdminPage /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "signup", element: <SignupPage /> },
     ],
   },
 ]);

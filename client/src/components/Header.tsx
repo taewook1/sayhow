@@ -1,39 +1,37 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../store";
+import { logout } from "../store/userSlice";
 
 function Header() {
+  const { username } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleAskClick = () => {
+    if (!username) {
+      navigate("/login");
+    } else {
+      navigate("/write"); // 질문 작성 폼 페이지
+    }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
-    <header className="border-b bg-white shadow-sm">
-      <div className="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold text-gray-900">
-          Sayhow
-        </Link>
-
-        <div className="flex items-center space-x-6 text-sm text-gray-700">
-          <nav className="space-x-4 hidden sm:block">
-            <Link to="/write" className="hover:underline">
-              질문하기
-            </Link>
-            <Link to="/mypage" className="hover:underline">
-              마이페이지
-            </Link>
-          </nav>
-
-          <div className="space-x-2">
-            <Link
-              to="/login"
-              className="text-gray-600 hover:text-gray-900 hover:underline"
-            >
-              로그인
-            </Link>
-            <span className="text-gray-400">|</span>
-            <Link
-              to="/signup"
-              className="text-gray-600 hover:text-gray-900 hover:underline"
-            >
-              회원가입
-            </Link>
-          </div>
-        </div>
+    <header className="flex flex-col sm:flex-row justify-between items-center px-6 py-4 border-b gap-2">
+      <h1 className="text-lg font-bold">
+        <Link to="/">sayhow</Link>
+      </h1>
+      <div className="flex gap-3 flex-wrap justify-center sm:justify-end">
+        <button onClick={handleAskClick}>질문하기</button>
+        <Link to="/login">로그인</Link>
+        <Link to="/signup">회원가입</Link>
       </div>
     </header>
   );

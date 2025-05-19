@@ -2,22 +2,29 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-  nickname: string;
+  username: string | null;
+  token: string | null;
 }
 
 const initialState: UserState = {
-  nickname: "",
+  username: null,
+  token: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setNickname: (state, action: PayloadAction<string>) => {
-      state.nickname = action.payload;
+    login(state, action: PayloadAction<{ username: string; token: string }>) {
+      state.username = action.payload.username;
+      state.token = action.payload.token;
+    },
+    logout(state) {
+      state.username = null;
+      state.token = null;
     },
   },
 });
 
-export const { setNickname } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;
