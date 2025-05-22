@@ -39,3 +39,6 @@ server/.venv/
 
 # OS junk
 Thumbs.db
+
+__pycache__/
+*.py[cod]

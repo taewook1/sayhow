@@ -38,7 +38,7 @@ def create_answer(db: Session, answer: schemas.AnswerCreate, user_id: int):
         user_id=user_id,
         created_at=datetime.utcnow(),
         vote_score=0,
-        ai_feedback=None  # AI 피드백은 나중에 업데이트 가능
+        ai_feedback=None  # AI 피드백은 나중에
     )
     db.add(db_answer)
     db.commit()
@@ -54,3 +54,21 @@ def get_answers_for_question(db: Session, question_id: int, limit: int = 10):
         .limit(limit)
         .all()
     )
+
+import random
+
+def get_two_random_answers(db: Session, question_id: int):
+    answers = db.query(models.Answer).filter(models.Answer.question_id == question_id).all()
+    if len(answers) < 2:
+        return []
+    return random.sample(answers, 2)
+
+
+def vote_for_answer(db: Session, answer_id: int):
+    answer = db.query(models.Answer).filter(models.Answer.id == answer_id).first()
+    if not answer:
+        return None
+    answer.vote_score += 1
+    db.commit()
+    db.refresh(answer)
+    return answer
