@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, UniqueConstraint
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -40,3 +40,19 @@ class Answer(Base):
 
     question = relationship("Question", back_populates="answers")
     user = relationship("User")
+
+class VoteRecord(Base):
+    __tablename__ = "vote_records"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    question_id = Column(Integer, ForeignKey("questions.id"), nullable=False)
+    voted_answer_id = Column(Integer, ForeignKey("answers.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "question_id", name="uq_user_question_vote"),
+    )
+
+    user = relationship("User")
+    question = relationship("Question")
+    voted_answer = relationship("Answer")
