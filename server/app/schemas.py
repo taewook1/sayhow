@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from typing import List
 
 
 # 사용자 스키마
@@ -59,3 +60,26 @@ class Answer(AnswerBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+#투표 요청,응답 
+class VoteRequest(BaseModel):
+    question_id: int
+    answer_id: int
+
+class VoteSubmit(BaseModel):
+    answer_id: int
+
+class AnswerSimple(BaseModel):
+    id: int
+    content: str
+    vote_score: int
+
+    class Config:
+        from_attributes = True
+
+class VotePairResponse(BaseModel):
+    answers: List[AnswerSimple]
+
+class VoteResultResponse(BaseModel):
+    answer_id: int
+    new_vote_score: int

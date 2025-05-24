@@ -2,6 +2,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 from datetime import datetime
+import random
 
 
 # 질문 함수
@@ -55,7 +56,6 @@ def get_answers_for_question(db: Session, question_id: int, limit: int = 10):
         .all()
     )
 
-import random
 
 def get_two_random_answers(db: Session, question_id: int):
     answers = db.query(models.Answer).filter(models.Answer.question_id == question_id).all()
