@@ -39,7 +39,7 @@ def create_answer(db: Session, answer: schemas.AnswerCreate, user_id: int):
         user_id=user_id,
         created_at=datetime.utcnow(),
         vote_score=0,
-        ai_feedback=None  # AI 피드백은 나중에
+        ai_feedback=None
     )
     db.add(db_answer)
     db.commit()
