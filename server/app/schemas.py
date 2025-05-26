@@ -83,3 +83,6 @@ class VotePairResponse(BaseModel):
 class VoteResultResponse(BaseModel):
     answer_id: int
     new_vote_score: int
+
+
+AnswerResponse = Answer
