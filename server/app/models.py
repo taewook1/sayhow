@@ -56,3 +56,11 @@ class VoteRecord(Base):
     user = relationship("User")
     question = relationship("Question")
     voted_answer = relationship("Answer")
+
+class FeedbackCache(Base):
+    __tablename__ = "feedback_cache"
+
+    id = Column(Integer, primary_key=True, index=True)
+    hash_key = Column(String(64), unique=True, index=True)
+    ai_feedback = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)

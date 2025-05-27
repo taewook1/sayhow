@@ -25,7 +25,7 @@ def create_answer(
 
     # ✅ GPT 피드백 생성 (질문 제목 + 본문과 함께 전달)
     question_text = f"{question.title}\n{question.content}"
-    ai_feedback = generate_feedback(answer.content, question_text)
+    ai_feedback = generate_feedback(answer.content, question_text, db)
 
     # ✅ 답변 저장
     new_answer = models.Answer(
