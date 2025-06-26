@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-// import axios from "axios"; // 또는 axiosInstance
+import axios from "../lib/axiosInstance";
+import { isAxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -14,14 +15,16 @@ function LoginPage() {
     if (!password.trim()) return alert("비밀번호를 입력해주세요");
 
     try {
-      const res = await axios.post("/api/login", { username, password });
-
-      // 예: 토큰 저장 (로컬스토리지 or Redux로)
+      const res = await axios.post("/login", { username, password });
       localStorage.setItem("token", res.data.token);
       alert("로그인 성공!");
-      navigate("/"); // 홈으로 이동
-    } catch (err: any) {
-      alert(err.response?.data?.message || "로그인 실패");
+      navigate("/");
+    } catch (err: unknown) {
+      if (isAxiosError(err)) {
+        alert(err.response?.data?.message || "로그인 실패");
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
+      }
     }
   };
 
