@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-// import axios from "axios"; // axiosInstance 써도 됨
+import axios from "../lib/axiosInstance";
+import { isAxiosError } from "axios";
 
 function SignupPage() {
   const [username, setUsername] = useState("");
@@ -16,11 +17,15 @@ function SignupPage() {
       return alert("비밀번호가 일치하지 않습니다");
 
     try {
-      const res = await axios.post("/api/signup", { username, password });
+      await axios.post("/signup", { username, password });
       alert("회원가입이 완료되었습니다!");
-      window.location.href = "/login"; // 또는 useNavigate
-    } catch (err: any) {
-      alert(err.response?.data?.message || "회원가입 실패");
+      window.location.href = "/login";
+    } catch (err: unknown) {
+      if (isAxiosError(err)) {
+        alert(err.response?.data?.message || "회원가입 실패");
+      } else {
+        alert("예상치 못한 오류가 발생했습니다.");
+      }
     }
   };
 
