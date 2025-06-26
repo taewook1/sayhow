@@ -29,9 +29,19 @@ function Header() {
         <Link to="/">sayhow</Link>
       </h1>
       <div className="flex gap-3 flex-wrap justify-center sm:justify-end">
-        <button onClick={handleAskClick}>질문하기</button>
-        <Link to="/login">로그인</Link>
-        <Link to="/signup">회원가입</Link>
+        {username ? (
+          <>
+            <button onClick={handleAskClick}>질문하기</button>
+            <Link to="/mypage">마이페이지</Link>
+            <button onClick={handleLogout}>로그아웃</button>
+          </>
+        ) : (
+          <>
+            <button onClick={handleAskClick}>질문하기</button>
+            <Link to="/login">로그인</Link>
+            <Link to="/signup">회원가입</Link>
+          </>
+        )}
       </div>
     </header>
   );
